@@ -1,68 +1,66 @@
 import React, { useRef, useState } from "react";
 import { LoginPage } from "./styled";
 import { useNavigate } from "react-router-dom";
-import { Button, Card, Input } from "antd";
+import { Button, Form, Input } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import text from "../../Mock/text";
-// import useGetCollections from "../../hooks/useCollections";
 import getNotify from "../../Hooks/useNotify";
+import { useSignIn } from "../../Hooks/useRegister";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [loader, setloader] = useState(0);
-  const { loading, markets } = { loading: false, markets: {} };
   const { notify } = getNotify();
 
   const UsernameRef = useRef({});
   const PassRef = useRef({});
   const nav = useNavigate();
 
-  // const checkUser = async () => {
-  //   setloader(1);
+  const { mutate } = useSignIn(
+    () => {
+      notify("ok", "Hisobga kirdingiz..."); // Yuklanish holatini ko'rsatish
 
-  //   try {
-  //     const user = UsernameRef.current.input.value;
-  //     const pass = PassRef.current.input.value;
+      setloader(0);
+      nav("/");
+    },
+    (error) => {
+      if (error?.response?.data?.error === "Foydalanuvchi topilmadi") {
+        notify("err", "Hisob topilmadi");
+        setloader(0);
+      } else if (error?.response?.data?.error === "Noto'g'ri parol") {
+        notify("err", "Parol xato.");
+        setloader(0);
+      } else {
+        toast.error(error.response?.data?.detail || "Qandaydur xatolik.");
+        notify(
+          "err",
+          `${error.response?.data?.detail || "Qandaydur xatolik."}`
+        );
+        setloader(0);
+      }
+    }
+  );
 
-  //     if (!user.length || !pass.length) {
-  //       notify("err", "Barcha maydonlarni toldiring");
-  //       setloader(0);
-  //       return;
-  //     }
-
-  //     const validUser = markets.find(
-  //       (userData) => userData.username === user && userData.password === pass
-  //     );
-
-  //     if (validUser) {
-  //       localStorage.setItem("login", validUser.id);
-  //       nav("/");
-  //       notify("ok", "Hisobga kirildi");
-  //       document.location.reload();
-  //       setloader(0);
-  //     } else {
-  //       notify("err", "foydalanuvchi nomi yoki parol noto'g'ri.");
-  //     }
-  //   } catch (error) {
-  //     if (error?.code === "ERR_NETWORK") {
-  //       notify("err", "Tarmoqqa ulanishda muammo bor.");
-  //     }
-  //   }
-
-  //   setloader(0);
-  // };
-
-  const checkUser = async () => {
-    console.log(UsernameRef);
-    console.log(PassRef);
-
-    return;
+  const checkUser = async (e) => {
+    e.preventDefault();
+    setloader(1);
+    const requestData = {
+      username: UsernameRef?.current?.input?.value || "",
+      password: PassRef?.current?.input?.value || "",
+    };
+    try {
+      await mutate(requestData); // Just call login
+    } catch (error) {
+      setloader(0);
+      console.error("Login error: ", error);
+    }
   };
 
   return (
     <LoginPage>
       <div className="card ">
         <h1>{text.loginTitle}</h1>
-        <div className="inputs">
+        <Form className="inputs">
           <Input
             ref={UsernameRef}
             className="input"
@@ -79,9 +77,9 @@ const Login = () => {
           <Button className="button" onClick={checkUser} type="primary">
             {text.LoginSubmit}
           </Button>
-        </div>
+        </Form>
       </div>
-      {loading ? (
+      {loader ? (
         <div className="loaderWindow">
           <div className="loader"></div>
         </div>

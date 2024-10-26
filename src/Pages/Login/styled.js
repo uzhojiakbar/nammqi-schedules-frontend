@@ -29,7 +29,13 @@ const LoginPage = styled.div`
 
     gap: 40px;
     height: 100%;
-    width: 40%;
+    width: 45%;
+    min-width: 320px;
+
+    ${media.tablet} {
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.8);
+    }
 
     padding: 10px;
     > .inputs {
@@ -38,6 +44,7 @@ const LoginPage = styled.div`
       align-items: center;
       width: 100%;
       gap: 20px;
+      max-width: 800px;
       > .input {
         padding: 10px 5px;
         padding-right: 20px;
