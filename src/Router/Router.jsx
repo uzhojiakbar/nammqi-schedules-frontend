@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Login from "../Pages/Login/Login";
 import NotAuth from "../Components/Navigate/NotAuth";
 import UserAuth from "../Components/Navigate/UserAuth";
+import Home from "../Pages/Home/Home";
 
 const Router = () => {
   return (
@@ -11,7 +12,31 @@ const Router = () => {
         path="/"
         element={
           <NotAuth>
-            <h1>Home page</h1>
+            <Home />
+          </NotAuth>
+        }
+      />
+      <Route
+        path="/binolar"
+        element={
+          <NotAuth>
+            <Home />
+          </NotAuth>
+        }
+      />
+      <Route
+        path="/auditoriyalar"
+        element={
+          <NotAuth>
+            <Home />
+          </NotAuth>
+        }
+      />
+      <Route
+        path="/darsJadvali"
+        element={
+          <NotAuth>
+            <Home />
           </NotAuth>
         }
       />

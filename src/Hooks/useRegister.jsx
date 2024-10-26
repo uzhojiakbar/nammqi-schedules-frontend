@@ -1,8 +1,9 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { instance } from "../api/api";
 import toast from "react-hot-toast";
 // import { addToLS } from "./localstorageHook";
-import { getCookie, setCookie } from "./cookieHook";
+import { delCookie, setCookie } from "./cookieHook";
+import { useNavigate } from "react-router-dom";
 
 const notify = (type = "ok", text) => {
   if (type === "ok") {
@@ -87,4 +88,22 @@ export const useSignIn = (onSuccess, onError) => {
       }
     },
   });
+};
+export const useLogOut = () => {
+  const navigate = useNavigate(); // navigate hook dan foydalanamiz
+
+  const logOut = () => {
+    try {
+      delCookie("access");
+      delCookie("login");
+
+      toast.success("Hisobdan muvaffaqiyatli chiqdingiz!");
+      navigate("/login");
+    } catch (error) {
+      toast.error("Chiqishda qandaydur xatolik yuz berdi.");
+      console.log(error);
+    }
+  };
+
+  return logOut; // logOut funksiyasini qaytaramiz
 };
