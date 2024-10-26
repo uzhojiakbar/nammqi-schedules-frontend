@@ -29,6 +29,7 @@ const SidebarWrapper = styled.div`
 `;
 
 const Logo = styled.img`
+  cursor: pointer;
   width: 120px;
   margin: 0 auto;
   margin-bottom: 20px;
