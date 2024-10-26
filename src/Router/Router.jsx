@@ -7,6 +7,7 @@ import Home from "../Pages/Home/Home";
 import Binolar from "../Pages/Binolar/Binolar";
 import Autditoriyalar from "../Pages/Audiotoriyalar/Autditoriyalar";
 import DarsJadvali from "../Pages/DarsJadvali/DarsJadvali";
+import Users from "../Pages/Users/Users";
 
 const Router = () => {
   return (
@@ -45,6 +46,16 @@ const Router = () => {
           <NotAuth>
             <Home>
               <DarsJadvali />
+            </Home>
+          </NotAuth>
+        }
+      />
+      <Route
+        path="/users"
+        element={
+          <NotAuth>
+            <Home>
+              <Users />
             </Home>
           </NotAuth>
         }

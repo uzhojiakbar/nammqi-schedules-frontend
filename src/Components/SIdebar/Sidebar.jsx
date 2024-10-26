@@ -1,7 +1,7 @@
 import React from "react";
 import { FaBuilding, FaChalkboard, FaCalendarAlt } from "react-icons/fa";
 import { Logo, LogOut, Nav, NavItem, SidebarWrapper } from "./style";
-import { LogoutOutlined } from "@ant-design/icons";
+import { LogoutOutlined, UserSwitchOutlined } from "@ant-design/icons";
 import { useLogOut } from "../../Hooks/useRegister";
 import { useNavigate } from "react-router-dom";
 
@@ -33,6 +33,10 @@ const Sidebar = () => {
           <NavItem to={"/darsJadvali"}>
             <FaCalendarAlt />
             <div className="text">Dars jadvali</div>
+          </NavItem>
+          <NavItem to={"/users"}>
+            <UserSwitchOutlined />
+            <div className="text">Foydaluvchilar</div>
           </NavItem>
         </div>
       </Nav>

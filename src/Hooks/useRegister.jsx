@@ -70,8 +70,12 @@ export const useSignIn = (onSuccess, onError) => {
   return useMutation({
     mutationFn: (data) => instance.post("/api/auth/login/", data), // API ga so'rov yuborish
     onSuccess: (data) => {
+      console.log(data?.data);
+
       setCookie("access", data?.data?.token);
       setCookie("login", true);
+      setCookie("role", data?.data?.role);
+      setCookie("username", data?.data?.username);
 
       if (onSuccess) {
         onSuccess();

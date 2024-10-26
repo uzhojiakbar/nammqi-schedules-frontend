@@ -1,5 +1,4 @@
 import axios from "axios";
-import { getFromLS } from "../Hooks/localstorageHook";
 import { getCookie } from "../Hooks/cookieHook";
 
 export const instance = axios.create({
