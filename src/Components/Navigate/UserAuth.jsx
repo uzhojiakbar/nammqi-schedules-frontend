@@ -1,15 +1,15 @@
 import { Navigate } from "react-router-dom";
 import { getCookie } from "../../Hooks/cookieHook";
 
-const NotAuth = ({ children, toHome = 0 }) => {
+const UserAuth = ({ children, toHome = 0 }) => {
   const login = getCookie("login");
   const token = getCookie("access");
 
-  if (!login || !token) {
-    return <Navigate to={`/login`} />;
+  if (login && token) {
+    return <Navigate to={`/`} />;
   }
 
   return children;
 };
 
-export default NotAuth;
+export default UserAuth;

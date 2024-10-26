@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Login from "../Pages/Login/Login";
 import NotAuth from "../Components/Navigate/NotAuth";
+import UserAuth from "../Components/Navigate/UserAuth";
 
 const Router = () => {
   return (
@@ -14,7 +15,14 @@ const Router = () => {
           </NotAuth>
         }
       />
-      <Route path="/login" element={<Login />} />
+      <Route
+        path="/login"
+        element={
+          <UserAuth>
+            <Login />
+          </UserAuth>
+        }
+      />
     </Routes>
   );
 };
