@@ -1,9 +1,9 @@
 import React from "react";
-import { FaBuilding, FaChalkboard, FaCalendarAlt } from "react-icons/fa";
 import { Logo, LogOut, Nav, NavItem, SidebarWrapper } from "./style";
-import { LogoutOutlined, UserSwitchOutlined } from "@ant-design/icons";
+import { LogoutOutlined } from "@ant-design/icons";
 import { useLogOut } from "../../Hooks/useRegister";
 import { useNavigate } from "react-router-dom";
+import { routes } from "../../Utils/routes";
 
 const Sidebar = () => {
   //   const LogOutBtn = ();
@@ -22,11 +22,21 @@ const Sidebar = () => {
           />
         </div>
         <div className="buttons">
-          <NavItem to={"/binolar"}>
-            <FaBuilding />
-            <div className="text">Bino</div>
-          </NavItem>
-          <NavItem to={"/auditoriyalar"}>
+          {routes.map((v, i) => {
+            return (
+              v.visible && (
+                <NavItem
+                  parent={v.parent || false}
+                  key={v?.id || i}
+                  to={v.route}
+                >
+                  {v.icon}
+                  <div className="text">{v.name}</div>
+                </NavItem>
+              )
+            );
+          })}
+          {/* <NavItem to={"/auditoriyalar"}>
             <FaChalkboard />
             <div className="text">Auditoriyalar</div>
           </NavItem>
@@ -37,7 +47,7 @@ const Sidebar = () => {
           <NavItem to={"/users"}>
             <UserSwitchOutlined />
             <div className="text">Foydaluvchilar</div>
-          </NavItem>
+          </NavItem> */}
         </div>
       </Nav>
 

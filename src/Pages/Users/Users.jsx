@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { instance } from "../../api/api";
 import getNotify from "../../Hooks/useNotify";
+import UsersData from "../../Components/Users/Users";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -30,18 +31,7 @@ const Users = () => {
     fetchUsers();
   }, [navigate]);
 
-  return (
-    <div>
-      <h1>User List</h1>
-      <ul>
-        {users.map((user) => (
-          <li key={user._id}>
-            {user.role} - {user.username}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  return <UsersData users={users} />;
 };
 
 export default Users;

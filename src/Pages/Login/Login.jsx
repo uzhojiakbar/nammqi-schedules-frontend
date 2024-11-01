@@ -60,7 +60,7 @@ const Login = () => {
     <LoginPage>
       <div className="card ">
         <h1>{text.loginTitle}</h1>
-        <Form className="inputs">
+        <Form onFinish={checkUser} autoComplete="on" className="inputs">
           <Input
             ref={UsernameRef}
             className="input"
@@ -74,7 +74,12 @@ const Login = () => {
               visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
             }
           />
-          <Button className="button" onClick={checkUser} type="primary">
+          <Button
+            htmlType="submit"
+            className="button"
+            onClick={checkUser}
+            type="primary"
+          >
             {text.LoginSubmit}
           </Button>
         </Form>
