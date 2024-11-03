@@ -30,7 +30,7 @@ export const routes = [
     icon: <FaHome />,
     NotAuth: true,
     onlyAdmins: false,
-    visible: true,
+    visible: false,
     parent: true,
   },
   {

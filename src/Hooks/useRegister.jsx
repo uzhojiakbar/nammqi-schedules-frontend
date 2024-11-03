@@ -93,6 +93,29 @@ export const useSignIn = (onSuccess, onError) => {
     },
   });
 };
+export const addBuilding = (onSuccess, onError) => {
+  return useMutation({
+    mutationFn: (data) => instance.post("/api/buildings", data),
+    onSuccess: (data) => {
+      console.log(data?.data);
+
+      if (onSuccess) {
+        onSuccess();
+      }
+    },
+    onError: (error) => {
+      console.log(error);
+      if (onError) {
+        onError(error); // Agar onError berilgan bo'lsa, chaqiramiz
+      } else {
+        toast.error(
+          "Qandaydur xatolik. Iltimos keyinroq qayta urinib ko'ring."
+        );
+      }
+    },
+  });
+};
+
 export const useLogOut = () => {
   const navigate = useNavigate(); // navigate hook dan foydalanamiz
 

@@ -1,12 +1,13 @@
 import React from "react";
 import Router from "../Router/Router";
 import "./index.css";
+import { Container } from "./global";
 
 const Root = () => {
   return (
-    <div>
+    <Container>
       <Router />
-    </div>
+    </Container>
   );
 };
 
