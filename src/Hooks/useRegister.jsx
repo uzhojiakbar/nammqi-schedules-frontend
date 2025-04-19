@@ -1,20 +1,23 @@
-import { useMutation } from "@tanstack/react-query";
+import {useMutation, useQuery} from "@tanstack/react-query";
 import { instance } from "../api/api";
 import toast from "react-hot-toast";
 import { delCookie, setCookie } from "./cookieHook";
 import { useNavigate } from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
+import Cookie from "js-cookie";
+
 
 export const useSignIn = (onSuccess, onError) => {
   return useMutation({
     mutationFn: (data) => instance.post("/api/auth/login/", data), // API ga so'rov yuborish
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       console.log(data?.data);
 
-      setCookie("access", data?.data?.token);
-      setCookie("login", true);
-      setCookie("role", data?.data?.role);
-      setCookie("username", data?.data?.username);
+      Cookie.set("access_token", data?.data?.access_token);
+      Cookie.set("refresh_token", data?.data?.refresh_token);
+      Cookie.set("sub", data?.data?.sub);
 
+      // const data2 = await instance.get(`/api/user/me`);
       if (onSuccess) {
         onSuccess();
       }
@@ -80,19 +83,57 @@ export const getBuilding = (onSuccess, onError) => {
 
 export const useLogOut = () => {
   const navigate = useNavigate(); // navigate hook dan foydalanamiz
-
   const logOut = () => {
     try {
-      delCookie("access");
-      delCookie("login");
+      delCookie("access_token");
+      delCookie("refresh_token");
+      delCookie("sub");
 
       toast.success("Hisobdan muvaffaqiyatli chiqdingiz!");
-      navigate("/login");
+      navigate("/");
+      document.location.reload();
     } catch (error) {
       toast.error("Chiqishda qandaydur xatolik yuz berdi.");
       console.log(error);
     }
   };
-
   return logOut; // logOut funksiyasini qaytaramiz
+};
+
+// ADMIN
+
+export const useGetUsers = () => {
+  return useQuery({
+    queryKey: ["GetAllUsers"],
+    queryFn: async () => {
+      try {
+        const data = await instance.get(`/api/admin/users`);
+        console.log("UserData", data?.data);
+        return data?.data;
+      } catch (error) {
+        console.error("Error fetching data", error);
+        throw error; // xatolikni qaytarish
+      }
+    },
+    staleTime: 1000 * 60 * 10,
+  });
+};
+
+
+// USER
+export const useGetUserInfo = () => {
+  return useQuery({
+    queryKey: ["ProfileInfo"],
+    queryFn: async () => {
+      try {
+          const data = await instance.get(`/api/user/me`);
+          console.log("UserData", data?.data);
+          return data?.data;
+      } catch (error) {
+        console.error("Error fetching data", error);
+        throw error; // xatolikni qaytarish
+      }
+    },
+    staleTime: 1000 * 60 * 10,
+  });
 };

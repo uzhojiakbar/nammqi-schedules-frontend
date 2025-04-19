@@ -6,7 +6,6 @@ import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import text from "../../Mock/text";
 import getNotify from "../../Hooks/useNotify";
 import { useSignIn } from "../../Hooks/useRegister";
-import toast from "react-hot-toast";
 
 const Login = () => {
   const [loader, setloader] = useState(0);
@@ -21,23 +20,11 @@ const Login = () => {
       notify("ok", "Hisobga kirdingiz..."); // Yuklanish holatini ko'rsatish
 
       setloader(0);
-      nav("/");
+      document.location.reload();
     },
     (error) => {
-      if (error?.response?.data?.error === "Foydalanuvchi topilmadi") {
-        notify("err", "Hisob topilmadi");
+        notify("err", error.response?.data?.error);
         setloader(0);
-      } else if (error?.response?.data?.error === "Noto'g'ri parol") {
-        notify("err", "Parol xato.");
-        setloader(0);
-      } else {
-        toast.error(error.response?.data?.detail || "Qandaydur xatolik.");
-        notify(
-          "err",
-          `${error.response?.data?.detail || "Qandaydur xatolik."}`
-        );
-        setloader(0);
-      }
     }
   );
 

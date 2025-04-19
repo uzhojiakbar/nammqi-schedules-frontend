@@ -8,9 +8,10 @@ import {
   TableWrapper,
   Title,
 } from "./style";
+import {useGetUsers} from "../../Hooks/useRegister.jsx";
 
-const UsersData = ({ users = [] }) => {
-  console.log(users);
+const UsersData = () => {
+  const { data: users } = useGetUsers();
 
   return (
     <TableWrapper>
@@ -30,7 +31,7 @@ const UsersData = ({ users = [] }) => {
           </tr>
         </thead>
         <tbody>
-          {users?.map((v, i) => (
+          {users?.users?.map((v, i) => (
             <tr key={i + 1}>
               <td>{i + 1}</td>
               <td>{v.username}</td>

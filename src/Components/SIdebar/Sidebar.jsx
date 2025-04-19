@@ -26,7 +26,6 @@ const Sidebar = () => {
             return (
               v.visible && (
                 <NavItem
-                  parent={v.parent || false}
                   key={v?.id || i}
                   to={v.route}
                 >
